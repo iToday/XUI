@@ -1,5 +1,5 @@
-#ifndef TOMWIN_PROGRESS_H
-#define TOMWIN_PROGRESS_H
+#ifndef ITODAY_PROGRESS_H
+#define ITODAY_PROGRESS_H
 
 #include <string>
 

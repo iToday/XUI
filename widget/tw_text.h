@@ -1,5 +1,5 @@
-#ifndef TOMWIN_TEXT_H
-#define TOMWIN_TEXT_H
+#ifndef ITODAY_TEXT_H
+#define ITODAY_TEXT_H
 
 #include "tw_view.h"
 

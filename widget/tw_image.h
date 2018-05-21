@@ -1,5 +1,5 @@
-#ifndef TOMWIN_IMAGE_H
-#define TOMWIN_IMAGE_H
+#ifndef ITODAY_IMAGE_H
+#define ITODAY_IMAGE_H
 
 #include <string>
 

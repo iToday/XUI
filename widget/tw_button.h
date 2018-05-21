@@ -1,5 +1,5 @@
-#ifndef TOMWIN_BUTTON_H
-#define TOMWIN_BUTTON_H
+#ifndef ITODAY_BUTTON_H
+#define ITODAY_BUTTON_H
 
 #include "tw_image.h"
 
