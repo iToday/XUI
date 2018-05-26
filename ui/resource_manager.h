@@ -27,6 +27,8 @@ class ResourceManager {
         static PBITMAP loadImg(string path);
 
         static PLOGFONT loadFont(string family, string charset, int size);
+
+        static PLOGFONT loadFont(string family, int size);
         
         static void release();
 

@@ -51,6 +51,8 @@ class TWButton : public TWImage{
 		
 		void setText(const char* text);
 
+        void setText(string text);
+
         const char* getText();
 		
 		void setTextColor(int color);

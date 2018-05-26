@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "ui/resource_manager.h"
 #include <list>
 #include <utils/log.h>
 
@@ -66,6 +67,8 @@ class TWView {
 		//id 
 		int mId;
 		
+		string mName;
+		
 		OnClickListener* mClickListener;
 		
 		RECT mRect;
@@ -86,6 +89,10 @@ class TWView {
 		virtual ~TWView();
 		
 		int getId();
+		
+		void setName(const char* name);
+		
+		bool is(const char* name);
 		
 		int setOnClickListener(OnClickListener* listener);
 		

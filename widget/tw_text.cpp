@@ -6,6 +6,8 @@ TWText::TWText(HWND hWnd,int zorder, int id, RECT rect, const char* text, int fo
 	: TWView(hWnd, zorder, id, rect){
 	
 	mFormat = format;
+	x_offset = 0;
+	y_offset = 0;
 	
 	mIndent = 0;
 	
@@ -25,6 +27,8 @@ TWText::TWText(HWND hWnd, int zorder, int id, RECT rect, const char* text, int f
 	: TWView(hWnd, zorder, id, rect){
 	
 	mFormat = format;	
+	x_offset = 0;
+	y_offset = 0;
 		
 	mText = NULL;
 	
@@ -36,22 +40,16 @@ TWText::TWText(HWND hWnd, int zorder, int id, RECT rect, const char* text, int f
 	
 	if (background != NULL){
 
-     #ifdef RESOURCE_MANAGER_SUPPORT
         mBackground = ResourceManager::loadImg(background);
-     #else
-		mBackground = new BITMAP();
-		mBkgPath = string(background);
-		LOGD("\n TWText load %s \n ", background);
-		LoadBitmap (HDC_SCREEN, mBackground, background);
-     #endif
-		
 	}
 	
 }
 
 TWText::TWText(HWND hWnd, int zorder, int id, RECT rect, const char* text, int format, PBITMAP background)
     : TWView(hWnd, zorder, id, rect){
-    mFormat = format;	
+    mFormat = format;
+	x_offset = 0;
+	y_offset = 0;	
 		
 	mText = NULL;
 	
@@ -73,13 +71,6 @@ TWText::~TWText(){
 	if (mText != NULL)
 		delete[] mText;
 
-	if (mBackground != NULL && !mBkgPath.empty()){
-#ifndef RESOURCE_MANAGER_SUPPORT
-		UnloadBitmap(mBackground);
-		delete mBackground;
-#endif
-	}
-
 }
 
 void TWText::onDraw(HDC dc){
@@ -98,8 +89,16 @@ void TWText::onDraw(HDC dc){
 	SetBkMode (dc, BM_TRANSPARENT);
     SetTextColor(dc, mColor);
 	
-	if (mText != NULL)
-		DrawTextEx (dc, mText, -1, &mRect, mIndent, mFormat);
+	if (mText != NULL){
+	    RECT rect;
+		
+		rect.top = mRect.top + y_offset;
+		rect.bottom = mRect.bottom + y_offset;
+	
+		rect.left = mRect.left + x_offset;
+		rect.right = mRect.right + x_offset;
+		DrawTextEx (dc, mText, -1, &rect, mIndent, mFormat);
+	}
 	
 	if (mFont != NULL)
 		SelectFont(dc, lastFont);
@@ -112,6 +111,16 @@ void TWText::setTextColor(int color){
 
 void TWText::setFont(PLOGFONT font){
     mFont = font;
+}
+
+void TWText::setText(string text){
+    setText(text.c_str());
+}
+
+void TWText::setTextOffset(int x, int y){
+	
+	x_offset = x;
+	y_offset = y;
 }
 
 void TWText::setText(const char* text){
@@ -132,24 +141,12 @@ void TWText::setText(const char* text){
 void TWText::setBackground(const char* background){
 	
 	if (mBackground != NULL && !mBkgPath.empty()){
-#ifndef RESOURCE_MANAGER_SUPPORT
-        UnloadBitmap(mBackground);
-        delete mBackground;
-#endif
-
         mBkgPath.clear();
 	}
 	
 	if (background != NULL){
-       
-     #ifdef RESOURCE_MANAGER_SUPPORT
         mBackground = ResourceManager::loadImg(background);
-     #else
-		mBackground = new BITMAP();
-		mBkgPath = string(background);
-		LOGD("\n TWText load %s \n ", background);
-		LoadBitmap (HDC_SCREEN, mBackground, background);
-     #endif
+   
 	}
 }
 

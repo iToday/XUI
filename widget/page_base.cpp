@@ -40,6 +40,9 @@ int MsgData::getExtra(){
 
 DIRECTION TWPageBase::mTransition = LEFT;
 
+string TWPageBase::loadString(const char* name){
+    return XmlLoader::loadString(name);
+}
 
 TWPageBase::TWPageBase(HWND hWnd, int id, RECT rect)
 	: TWView(hWnd, 0, id, rect){
@@ -79,14 +82,39 @@ TWPageBase::TWPageBase(HWND hWnd, int id, RECT rect, const char* background, int
     mStyle = style;
 }
 
+void TWPageBase::setContentView(const char* xml){
+
+    mxml_node_t* tree = XmlLoader::load(xml);
+
+    if (tree != NULL){
+
+        mxml_node_t *node = NULL;
+
+        node = mxmlFindElement(tree, tree, CLS_PAGE , NULL, NULL, MXML_DESCEND);
+
+        if (node != NULL){            
+
+            setBackground(XmlLoader::getDrawableAttr(node));
+            mRect = XmlLoader::getRectAttr(node);
+            mVisable = XmlLoader::getVisableAttr(node);
+            mStyle = PAGE_STYLE(XmlLoader::getStyleAttr(node));
+            
+            LISTVIEWS views = XmlLoader::createWidgets(node, mWnd);
+
+            LISTVIEWS::iterator plist; 
+	
+        	for(plist = views.begin(); plist != views.end(); plist++)
+        		addView(*plist);
+
+            views.clear();
+            
+        }
+        mxmlDelete(tree);
+    }    
+}
 		
 TWPageBase::~TWPageBase(){
-#ifndef RESOURCE_MANAGER_SUPPORT
-	if (mBackground != NULL){
-		UnloadBitmap(mBackground);
-		delete mBackground;
-	}	
-#endif
+
 	LISTVIEWS::iterator plist; 
 	
 	for(plist = mViews.begin(); plist != mViews.end(); plist++)
@@ -125,6 +153,22 @@ TWView* TWPageBase::findViewbyId(int id){
 	return NULL;
 }
 
+TWView* TWPageBase::findViewbyName(const char* name){
+		
+	return findViewbyName(mViews, name);
+}
+
+TWView* TWPageBase::findViewbyName(LISTVIEWS widgets, const char* name){
+	
+	LISTVIEWS::iterator plist; 
+	
+	for(plist = widgets.begin(); plist != widgets.end(); plist++)
+		if ((*plist)->is(name))
+			return *plist;
+		
+	return NULL;
+}
+
 bool TWPageBase::onGesture(DIRECTION direction){
     return false;
 }
@@ -154,14 +198,6 @@ bool TWPageBase::setVisable(int visable){
 
         if (mVisable == VISABLE){
 
-#ifndef RESOURCE_MANAGER_SUPPORT
-            if (mBackground == NULL && !mBkgPath.empty()){
-			
-				mBackground = new BITMAP();
-				
-                LoadBitmap (HDC_SCREEN, mBackground, mBkgPath.c_str());
-            }
-#endif            
             onResume();
 
             overridePendingTransition();
@@ -170,13 +206,6 @@ bool TWPageBase::setVisable(int visable){
         
             onPause();
 
-#ifndef RESOURCE_MANAGER_SUPPORT
-            if (mBackground != NULL){
-		        UnloadBitmap(mBackground);
-                delete mBackground;
-                mBackground = NULL;
-            }
-#endif
         }
 
         return true;
@@ -185,30 +214,10 @@ bool TWPageBase::setVisable(int visable){
     return false;
 }
 
-
-
 void TWPageBase::setBackground(const char* background){
 
-#ifdef RESOURCE_MANAGER_SUPPORT
     mBackground = ResourceManager::loadImg(background);
-#else
-	if (mBackground != NULL){
-		UnloadBitmap(mBackground);
-		delete mBackground;
-
-        mBackground = NULL;
-	}		
-
-    mBkgPath = string(background);
-
-    if (mVisable == VISABLE){   	
-    	
-    	if (background != NULL){
-            mBackground = new BITMAP();
-    		LoadBitmap (HDC_SCREEN, mBackground, background);    
-        }
-    }
-#endif	
+	
 }
 
  void TWPageBase::setPageVisable(int id, int state){

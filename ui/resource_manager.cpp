@@ -7,9 +7,22 @@
 
 #define LOG_TAG "ResourceManager"
 
+#define FONT_FAMILY_KAITI "kaiti"
+#define FONT_FAMILY_CLOCK "Clockopia"
+
+#define FONT_CHARSET_GB2312_0       "GB2312-0"
+#define FONT_CHARSET_ISO8859_1      "ISO8859-1"
 
 IMGS_MAP ResourceManager::mImgs;
 FONTS_MAP ResourceManager::mFonts;
+
+#define FONTS_MAP_SIZE 2
+
+static string FONTS_FIAMILY_CHARSET_MAP[FONTS_MAP_SIZE][2] = {
+    {FONT_FAMILY_KAITI, FONT_CHARSET_GB2312_0},
+    {FONT_FAMILY_CLOCK, FONT_CHARSET_ISO8859_1},
+};
+
 
 PBITMAP ResourceManager::loadImg(string path){
 
@@ -48,6 +61,18 @@ const char* ResourceManager::getAbsPath(const char* filp){
         return tmp_path;
 
     return filp;
+}
+
+PLOGFONT ResourceManager::loadFont(string family, int size){
+
+    string charset;
+
+    for(int index = 0; index < FONTS_MAP_SIZE; index ++)
+        if (FONTS_FIAMILY_CHARSET_MAP[index][0] == family)
+            charset = FONTS_FIAMILY_CHARSET_MAP[index][1];
+
+    return loadFont(family, charset, size);;
+        
 }
 
 

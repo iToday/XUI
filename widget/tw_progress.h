@@ -3,16 +3,23 @@
 
 #include <string>
 
-#include "tw_view.h"
+#include "tw_text.h"
 
 using namespace std;
+
+enum PROGRESS_BACKGROUND{
+	BKG_LIGHT,
+	BKG_DARK,
+	
+	PROGRESS_BACKGROUND_SIZE,
+};
 
 class OnProgressChangeListener{
     public:
         virtual void onProgressChange(int progress, bool byUser) = 0;
 };
 
-class TWProgress : public TWView{
+class TWProgress : public TWText{
 	
 	protected:
 		

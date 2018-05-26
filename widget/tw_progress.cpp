@@ -2,7 +2,7 @@
 
 #define LOG_TAG "TWProgress"
 TWProgress::TWProgress(HWND hWnd, int zorder, int id, RECT rect)
-	: TWView(hWnd, zorder, id, rect){
+	: TWText(hWnd, zorder, id, rect, "", 0){
 	mMax = 100;
     mProgress = 0;
 

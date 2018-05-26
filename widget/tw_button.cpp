@@ -1,12 +1,11 @@
+
 #include "tw_button.h"
 #include <string.h>
-
 #define LOG_TAG "TWButton"
-
 TWButton::TWButton(HWND hWnd, int zorder, int id, RECT rect, const string* path, int size)
 	: TWImage(hWnd, zorder, id, rect, path, size){
 		
-	mFormat = DT_CENTER | DT_WORDBREAK | DT_VCENTER | DT_BOTTOM;
+	mFormat = DT_CENTER | DT_WORDBREAK | DT_VCENTER;
 	
 	mTextRect = rect;
 	
@@ -21,7 +20,7 @@ TWButton::TWButton(HWND hWnd, int zorder, int id, RECT rect, const string* path,
 
 TWButton::TWButton(HWND hWnd, int zorder, int id, RECT rect, PBITMAP* imges, int size)
    : TWImage(hWnd, zorder, id, rect, imges, size){
-	mFormat = DT_CENTER | DT_WORDBREAK | DT_VCENTER | DT_BOTTOM;
+	mFormat = DT_CENTER | DT_WORDBREAK | DT_VCENTER ;
 	
 	mTextRect = rect;
 	
@@ -38,7 +37,7 @@ TWButton::TWButton(HWND hWnd, int zorder, int id, RECT rect, PBITMAP* imges, int
 TWButton::TWButton(HWND hWnd, int zorder, int id, RECT rect, const string* path, int size, const char* text, int format)
 	: TWImage(hWnd, zorder, id, rect, path, size){
 	
-	mFormat = DT_CENTER | DT_WORDBREAK | DT_VCENTER | DT_BOTTOM | format;
+	mFormat = format;
 	
 	mTextRect = rect;
 	
@@ -55,7 +54,7 @@ TWButton::TWButton(HWND hWnd, int zorder, int id, RECT rect, const string* path,
 
 TWButton::TWButton(HWND hWnd, int zorder, int id, RECT rect, PBITMAP* imges, int size, const char* text, int format)
     : TWImage(hWnd, zorder, id, rect, imges, size){
-    mFormat = DT_CENTER | DT_WORDBREAK | DT_VCENTER | DT_BOTTOM | format;
+    mFormat = format;
 	
 	mTextRect = rect;
 	
@@ -151,10 +150,16 @@ const char* TWButton::getText(){
     return mText;
 }
 
+void TWButton::setText(string text){
+    setText(text.c_str());
+}
+
 void TWButton::setText(const char* text){
 	
 	if (mText != NULL)
 		delete mText;
+		
+	if (text == NULL) return;
 	
 	mText = new char[strlen(text) + 1];
 	

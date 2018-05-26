@@ -10,18 +10,9 @@ TWImage::TWImage(HWND hWnd, int zorder, int id, RECT rect, const string* path, i
     mPath  = new string[size];
     mImages = new PBITMAP[size];
 	
-#ifdef RESOURCE_MANAGER_SUPPORT
-
     for (int index = 0; index < size; index ++)
         mImages[index] = ResourceManager::loadImg(path[index]);
-#else	
-	for (int index = 0; index < size; index ++){
-        mPath[index] = path[index];
-		mImages[index] = new BITMAP();
-		LOGD("\n TWImage load %s \n ", path[index].c_str());
-		LoadBitmap (HDC_SCREEN, mImages[index], path[index].c_str());
-	}
-#endif
+
 }
 
 //load bmp outside, don't need release
@@ -41,17 +32,7 @@ TWImage::~TWImage(){
     if (mPath != NULL){ //load bmp by self, so release by self 
         
         delete[] mPath;
-        
-#ifndef RESOURCE_MANAGER_SUPPORT
-        for (int index = 0; index < mSize; index ++){
-     
-    		if (mImages[index] != NULL){
-    			UnloadBitmap(mImages[index]);
-    			delete mImages[index];           
-    		}
-	    }
-#endif
-                
+               
         if (mImages != NULL)
             delete[] mImages;
     }

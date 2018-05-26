@@ -33,6 +33,20 @@ int TWView::getId(){
 	return mId;
 }
 
+void TWView::setName(const char* name){
+	
+	if (name != NULL)
+		mName = name;
+}
+
+bool TWView::is(const char* name){
+	
+	if (name != NULL)
+		return mName == name;
+		
+	return false;
+}
+
 int TWView::setOnClickListener(OnClickListener* listener){
 	
 	mClickListener = listener;

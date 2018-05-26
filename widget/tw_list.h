@@ -17,6 +17,10 @@ class BaseAdapter{
     private:
         DataSetObservable* mNotify;
     public:
+    	BaseAdapter(){
+    		mNotify = NULL;
+		}
+		
         virtual int getCount() = 0;
         virtual TWView* getView(int pos, TWView* convertView) = 0;
         virtual bool isEmpty() = 0;

@@ -19,6 +19,9 @@ class TWText : public TWView{
 		int mColor;
 		
 		PLOGFONT mFont;
+		
+		int x_offset;
+		int y_offset;
 	
 	public:
 		TWText(HWND hWnd, int zorder, int id, RECT rect, const char* text, int format);
@@ -36,10 +39,14 @@ class TWText : public TWView{
 		void setSize(int size);
 		
 		void setText(const char* text);
+
+        void setText(string text);
 		
 		void setTextColor(int color);
 
 		void setFont(PLOGFONT font);
+		
+		void setTextOffset(int x, int y);
 		
 		virtual void onDraw(HDC dc);
 

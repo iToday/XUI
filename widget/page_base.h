@@ -3,9 +3,10 @@
 
 #include <list>
 #include <typeinfo>
-
+#include "xml_loader.h"
 #include "widget/tw_view.h"
 #include "widget/tw_button.h"
+#include "widget/tw_radio.h"
 #include "widget/tw_image.h"
 #include "widget/tw_list.h"
 #include "widget/tw_text.h"
@@ -68,16 +69,12 @@ enum DIRECTION{
 #define KEY_VOLUME_SUB      3
 #define KEY_VOLUME_MUTE     4
 
-/*enum KEY_STATE{
-    KEY_DOWN,
-    KEY_UP,
-};*/
 
 #define SUPPORT_GESTURE     0
 
 enum PAGE_STYLE{
-    NONE_S,
-    SCROLL = 1,
+    NONE_S = 1,
+    SCROLL = 1 << 1,
 };
 
 #define TRANSSITION_MAX_TIMES 30
@@ -129,6 +126,12 @@ class TWPageBase : public TWView, public OnClickListener{
 				
 		TWView* findViewbyId(int id);
 		
+		TWView* findViewbyName(const char* name);
+		
+		TWView* findViewbyName(LISTVIEWS widgets, const char* name);
+
+        string loadString(const char* name);
+		
 		void setBackground(const char* background);
 
         void setPageVisable(int id, int state);
@@ -166,6 +169,9 @@ class TWPageBase : public TWView, public OnClickListener{
         bool scroll(int offset);
 
         void resetScroll();
+
+    protected:
+        void setContentView(const char* xml);
 
 };
 
