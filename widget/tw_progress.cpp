@@ -3,6 +3,8 @@
 #define LOG_TAG "TWProgress"
 TWProgress::TWProgress(HWND hWnd, int zorder, int id, RECT rect)
 	: TWText(hWnd, zorder, id, rect, "", 0){
+		
+	mListener = NULL;
 	mMax = 100;
     mProgress = 0;
 
@@ -54,6 +56,7 @@ void TWProgress::onDraw(HDC dc){
         FillBoxWithBitmap(dc, mThumbRect.left, mThumbRect.top, RECTW(mThumbRect), RECTH(mThumbRect), mThumb);
     }
 
+	TWText::onDraw(dc);
 }
 
 int TWProgress::onTouch(POINT pt, int action){

@@ -1,6 +1,15 @@
 #include "tw_image.h"
 
 #define LOG_TAG "TWImage"
+
+TWImage::TWImage(TWImage* img): TWView(img){
+    mSize = img->mSize;
+	mIndex = 0;
+	mPath  = img->mPath;
+
+    mImages = img->mImages;
+}
+
 TWImage::TWImage(HWND hWnd, int zorder, int id, RECT rect, const string* path, int size)
 	: TWView(hWnd, zorder, id, rect){
 	

@@ -23,6 +23,17 @@ TWView::TWView(HWND hWnd, int zorder, int id, RECT rect){
     mDown = false;
 }
 
+TWView::TWView(TWView* view){
+	mClickListener = NULL;
+    mDataExtra = NULL;
+	mId = view->mId;
+	mZOrder = view->mZOrder;
+	memcpy(&mRect, &view->mRect, sizeof(RECT));
+    mVisable = VISABLE;
+	mWnd = view->mWnd;
+    mDown = false;
+}
+
 TWView::~TWView(){
 
     printf("\n TWView::~TWView() id %d\n ", mId);

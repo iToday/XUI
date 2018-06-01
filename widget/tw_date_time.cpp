@@ -9,10 +9,7 @@ TWDigitalList::TWDigitalList(HWND hWnd, int zorder, int id, RECT rect, int items
     last_action = TOUCH_UP;
     haveDown = false;
 
-    mCommFont = CreateLogFont(FONT_TYPE_NAME_SCALE_TTF, "kaiti", FONT_CHARSET_GB2312_0,
-       FONT_WEIGHT_SUBPIXEL, FONT_SLANT_ROMAN, FONT_FLIP_NIL,
-       FONT_OTHER_NIL, FONT_UNDERLINE_NONE, FONT_STRUCKOUT_NONE,
-       22, 0);
+
     
     RECT item = mRect;
     item.bottom = item.top + RECTH(mRect) / items;
@@ -320,11 +317,7 @@ void TWDigitalList::scroll(int y_offset){
 
     if (bChanged && mListener != NULL){
         mListener->onSelectChange(this, getSelected());
-        
-        SoundManager* manager = SoundManager::instance();
 
-        if (manager != NULL)
-            manager->playVoice("/music/tick.wav");
     }
 
 }

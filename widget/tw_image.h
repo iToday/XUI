@@ -20,6 +20,7 @@ class TWImage : public TWView{
 		int mSize;
 	
 	public:
+        TWImage(TWImage* img);
 		TWImage(HWND hWnd, int zorder, int id, RECT rect, const string* path, int size);
         TWImage(HWND hWnd, int zorder, int id, RECT rect, PBITMAP* images, int size);
 		~TWImage();

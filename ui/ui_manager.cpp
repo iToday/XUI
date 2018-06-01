@@ -36,26 +36,17 @@ int UIManager::onTouch(POINT pt, int action){
 	LISTPAGES::reverse_iterator  plist; 
 
     static int last_action = TOUCH_UP;
-
-    if (mLockManager->isSleep()){
-        LOGE("isSleep OnTouch ACTION %d return failed\n ", action);
-        return FAILED;
-    }
+    
+    if (last_action == TOUCH_UP && action == TOUCH_MOVE){
+        
+        action = TOUCH_DOWN;
+    }    
 	
 	for(plist = mPages.rbegin(); plist != mPages.rend(); plist++){
         if(((*plist)->getVisable() == VISABLE))
 		    if ((*plist)->onTouch(pt, action) == SUCCESS)
               break;
 	}
-
-    if (action == TOUCH_DOWN && mLockManager != NULL){
-
-        SoundManager* sound = SoundManager::instance();
-
-        if (sound != NULL)
-            sound->playTick();
-        mLockManager->restartSleepTimer();
-    }
 
     last_action = action;    
 
@@ -67,7 +58,7 @@ int UIManager::onTimer(int id, int tick_count){
 	int pageId = PAGE_ID_FROM_TIMER_ID(id);
 	int timerId = SRC_TIMER_ID_FROM_TIMER_ID(id);
 
-
+	
 	LISTPAGES::iterator plist; 
 	
 	for(plist = mPages.begin(); plist != mPages.end(); plist++){
@@ -80,7 +71,6 @@ int UIManager::onTimer(int id, int tick_count){
 }
 
 void UIManager::pendingTransition(){
-	
     int times = TRANSSITION_MAX_TIMES;
     int x = 0;
     int y = 0;
