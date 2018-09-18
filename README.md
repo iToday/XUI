@@ -7,5 +7,5 @@ Package miniGUI interface and controls
 
 
 待完善点：
-  XML资源布局及语言动态切换功能
+ 语言动态切换功能
 
