@@ -7,5 +7,6 @@ Package miniGUI interface and controls
 
 
 待完善点：
- 语言动态切换功能
+* 语言动态切换功能</br>
+* 局部刷新优化刷新速度</br>
 
